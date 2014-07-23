@@ -9,11 +9,25 @@ import (
 	"strings"
 )
 
+func init() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
+		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "%s <format-string>\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "<format-string> contains substitution placeholders in the format \"{header}\", where header corresponds to one of the input CSV file header fields.\n")
+	}
+}
+
 func main() {
 	r := csv.NewReader(os.Stdin)
 
 	flag.Parse()
+
 	input := flag.Arg(0)
+	if input == "" {
+		flag.Usage()
+		os.Exit(-1)
+	}
 
 	rs, err := r.ReadAll()
 	if err != nil {
