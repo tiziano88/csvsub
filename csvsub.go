@@ -39,7 +39,7 @@ func main() {
 				fName := strings.TrimSuffix(strings.TrimPrefix(m, "{"), "}")
 				fNum, ok := fieldMap[fName]
 				if !ok {
-					return "---PANIC---"
+					return m
 				}
 				return row[fNum]
 			}))
